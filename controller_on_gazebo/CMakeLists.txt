@@ -8,6 +8,8 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -20,6 +22,15 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+add_executable(xbox_controller src/xbox_controller.cpp)
+ament_target_dependencies(xbox_controller rclcpp sensor_msgs geometry_msgs)
+
+install(TARGETS
+  xbox_controller
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 
 install(DIRECTORY
 	launch urdf models worlds
